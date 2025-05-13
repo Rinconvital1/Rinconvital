@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rincón Vital - Tienda Saludable</title>
+  <style>
+    :root {
+      --verde-oscuro: #2d6a4f;
+      --verde-medio: #40916c;
+      --verde-claro: #b7e4c7;
+      --fondo: #f0fdf4;
+      --texto: #1b4332;
+      --dorado: #caa032;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--fondo);
+      margin: 0;
+      padding: 0;
+      color: var(--texto);
+    }
+
+    header, footer {
+      background-color: var(--verde-claro);
+      padding: 1em 2em;
+      text-align: center;
+    }
+
+    .logo-img {
+      max-width: 200px;
+      margin-bottom: 10px;
+    }
+
+    .logo-text {
+      font-size: 2em;
+      font-weight: bold;
+      color: var(--verde-oscuro);
+    }
+
+    .nav {
+      margin-top: 1em;
+    }
+
+    .nav a {
+      margin: 0 1em;
+      color: var(--verde-medio);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 2em;
+    }
+
+    .categories {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1em;
+      margin-bottom: 2em;
+    }
+
+    .category {
+      background: var(--verde-claro);
+      padding: 1em 2em;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2em;
+    }
+
+    .product {
+      background: white;
+      border-radius: 16px;
+      padding: 1em;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .product img {
+      width: 100%;
+      border-radius: 12px;
+    }
+
+    .product h3 {
+      margin: 0.5em 0;
+      color: var(--verde-oscuro);
+    }
+
+    .product button {
+      background-color: var(--verde-medio);
+      color: white;
+      border: none;
+      padding: 0.5em 1em;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .cart-section, .admin-panel {
+      margin-top: 3em;
+    }
+
+    .cart, .admin {
+      background: #fff;
+      padding: 1em;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .cart-title, .admin-title {
+      font-size: 1.5em;
+      margin-bottom: 1em;
+      color: var(--verde-oscuro);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo_3d.png" alt="Logo Rincón Vital" class="logo-img">
+    <div class="logo-text">Rincón Vital</div>
+    <div class="nav">
+      <a href="#frutas">Frutas</a>
+      <a href="#cereales">Cereales</a>
+      <a href="#snacks">Snacks Saludables</a>
+      <a href="#carrito">Carrito</a>
+      <a href="#admin">Admin</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="categories">
+      <div class="category">Frutas</div>
+      <div class="category">Cereales</div>
+      <div class="category">Snacks</div>
+    </section>
+
+    <section class="products" id="frutas">
+      <div class="product">
+        <img src="https://source.unsplash.com/300x200/?fruit" alt="Frutas">
+        <h3>Manzana Roja</h3>
+        <p>Natural, crujiente y deliciosa.</p>
+        <p><strong>$3.000</strong></p>
+        <button onclick="addToCart('Manzana Roja', 3000)">Agregar al carrito</button>
+      </div>
+    </section>
+
+    <section class="products" id="cereales">
+      <div class="product">
+        <img src="https://source.unsplash.com/300x200/?cereal" alt="Cereal">
+        <h3>Avena en hojuelas</h3>
+        <p>Ideal para un desayuno saludable.</p>
+        <p><strong>$2.500</strong></p>
+        <button onclick="addToCart('Avena en hojuelas', 2500)">Agregar al carrito</button>
+      </div>
+    </section>
+
+    <section class="products" id="snacks">
+      <div class="product">
+        <img src="https://source.unsplash.com/300x200/?healthy-snack" alt="Snack">
+        <h3>Mix de nueces</h3>
+        <p>Rico en proteínas y grasas saludables.</p>
+        <p><strong>$5.000</strong></p>
+        <button onclick="addToCart('Mix de nueces', 5000)">Agregar al carrito</button>
+      </div>
+    </section>
+
+    <section class="cart-section" id="carrito">
+      <div class="cart">
+        <div class="cart-title">Carrito de Compras</div>
+        <ul id="cart-items"></ul>
+        <p><strong>Total: $<span id="cart-total">0</span></strong></p>
+      </div>
+    </section>
+
+    <section class="admin-panel" id="admin">
+      <div class="admin">
+        <div class="admin-title">Panel de Administración</div>
+        <p>Gestión de productos, precios y stock (próximamente editable).</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Rincón Vital - Tienda Saludable a Granel. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    let cart = [];
+
+    function addToCart(product, price) {
+      cart.push({ product, price });
+      updateCart();
+    }
+
+    function updateCart() {
+      const cartItems = document.getElementById("cart-items");
+      const cartTotal = document.getElementById("cart-total");
+      cartItems.innerHTML = "";
+      let total = 0;
+      cart.forEach((item) => {
+        total += item.price;
+        const li = document.createElement("li");
+        li.textContent = `${item.product} - $${item.price}`;
+        cartItems.appendChild(li);
+      });
+      cartTotal.textContent = total;
+    }
+  </script>
+</body>
+</html>
